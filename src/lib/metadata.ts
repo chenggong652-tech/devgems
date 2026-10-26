@@ -9,7 +9,7 @@ export function constructMetadata({
   description = siteConfig.description,
   canonicalUrl,
   image = siteConfig.image,
-  noIndex = false,
+  noIndex = true,
 }: {
   title?: string;
   description?: string;
