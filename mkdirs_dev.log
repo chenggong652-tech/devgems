@@ -1,0 +1,47 @@
+$ next dev
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3000
+
+ ✓ Starting...
+ ✓ Ready in 3s
+ ○ Compiling /src/middleware ...
+ ✓ Compiled /src/middleware in 5.6s (533 modules)
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\DumpStack.log.tmp'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\hiberfil.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\swapfile.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\pagefile.sys'
+ ⨯ Error: Missing environment variable: NEXT_PUBLIC_SANITY_DATASET
+    at <unknown> (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:28)
+    at assertValue (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:28:15)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:21:21)
+    at (middleware)/./src/sanity/lib/api.ts (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\src\middleware.js:2050:1)
+    at __webpack_require__ (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:37:33)
+    at fn (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:315:21)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/client.ts:6:62)
+    at (middleware)/./src/sanity/lib/client.ts (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\src\middleware.js:2061:1)
+    at __webpack_require__ (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:37:33)
+    at fn (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:315:21)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/fetch.ts:5:76)
+ ○ Compiling /_error ...
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\DumpStack.log.tmp'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\pagefile.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\swapfile.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\hiberfil.sys'
+ ✓ Compiled /_error in 3.4s (255 modules)
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\DumpStack.log.tmp'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\hiberfil.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\swapfile.sys'
+Watchpack Error (initial scan): Error: EINVAL: invalid argument, lstat 'C:\pagefile.sys'
+ ⨯ Error: Missing environment variable: NEXT_PUBLIC_SANITY_DATASET
+    at <unknown> (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:28)
+    at assertValue (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:28:15)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/api.ts:21:21)
+    at (middleware)/./src/sanity/lib/api.ts (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\src\middleware.js:2050:1)
+    at __webpack_require__ (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:37:33)
+    at fn (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:315:21)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/client.ts:6:62)
+    at (middleware)/./src/sanity/lib/client.ts (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\src\middleware.js:2061:1)
+    at __webpack_require__ (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:37:33)
+    at fn (file://C:\Users\Admin\directory-templates\mkdirs\.next\server\edge-runtime-webpack.js:315:21)
+    at eval (webpack-internal:///(middleware)/./src/sanity/lib/fetch.ts:5:76)
+[ELIFECYCLE] Command failed with exit code -1.
