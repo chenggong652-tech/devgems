@@ -8,7 +8,16 @@ import HomeSearchBox from "./home-search-box";
 export default function HomeHero() {
   const LabelIcon = Icons[heroConfig.label.icon];
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div 
+      className="flex flex-col items-center justify-center py-16 sm:py-24"
+      style={{
+        backgroundImage: `
+          linear-gradient(rgba(139, 92, 246, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px)
+        `,
+        backgroundSize: '40px 40px',
+      }}
+    >
       <div className="max-w-5xl flex flex-col items-center text-center gap-8">
         <Link
           href={heroConfig.label.href}
@@ -33,6 +42,12 @@ export default function HomeHero() {
 
         <p className="max-w-4xl text-balance text-muted-foreground sm:text-xl">
           {heroConfig.subtitle}
+        </p>
+
+        {/* 统计数字 */}
+        <p className="text-base text-muted-foreground">
+          <span className="font-semibold text-primary">100+</span> Handpicked AI Coding Gems ·{" "}
+          <span className="font-semibold text-primary">4</span> Categories
         </p>
 
         <div className="w-full">

@@ -1,6 +1,8 @@
 import ItemGrid from "@/components/item/item-grid";
 import EmptyGrid from "@/components/shared/empty-grid";
 import CustomPagination from "@/components/shared/pagination";
+import CategoryGrid from "@/components/home/category-grid";
+import FeaturedGems from "@/components/home/featured-gems";
 import { siteConfig } from "@/config/site";
 import { getItems } from "@/data/item";
 import {
@@ -59,6 +61,12 @@ export default async function HomePage({
 
   return (
     <div>
+      {/* 分类展示卡片 */}
+      <CategoryGrid />
+
+      {/* 特色工具 */}
+      <FeaturedGems />
+
       {/* when no items are found */}
       {items?.length === 0 && <EmptyGrid />}
 
