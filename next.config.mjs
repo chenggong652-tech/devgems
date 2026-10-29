@@ -44,6 +44,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "via.placeholder.com", // https://www.sanity.io/learn/course/day-one-with-sanity-studio/bringing-content-to-a-next-js-front-end
       },
+      {
+        protocol: "https",
+        hostname: "www.google.com", // Google favicon
+      },
     ],
   },
 };

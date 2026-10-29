@@ -8,19 +8,9 @@ export const marketingConfig: MarketingConfig = {
       icon: "search",
     },
     {
-      title: "Collection",
-      href: "/collection",
-      icon: "collection",
-    },
-    {
       title: "Category",
       href: "/category",
       icon: "category",
-    },
-    {
-      title: "Tag",
-      href: "/tag",
-      icon: "tag",
     },
     {
       title: "Blog",
@@ -31,17 +21,6 @@ export const marketingConfig: MarketingConfig = {
       title: "Pricing",
       href: "/pricing",
       icon: "pricing",
-    },
-    {
-      title: "Submit",
-      href: "/submit",
-      icon: "submit",
-    },
-    {
-      title: "Studio",
-      href: "/studio",
-      icon: "studio",
-      external: true,
     },
   ],
 };

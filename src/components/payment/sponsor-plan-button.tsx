@@ -97,7 +97,7 @@ export function SponsorPlanButton({
     >
       {!item ? (
         <div className="flex items-center justify-center gap-2">
-          <span>Go Submit</span>
+          <span>Become a Sponsor</span>
           <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
         </div>
       ) : isPending ? (

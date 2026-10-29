@@ -36,6 +36,16 @@ export const urlForImage = (source: any) => {
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export const urlForIcon = (source: any) => {
   if (!source || !source.asset) return;
+
+  // 普通外部URL（Google favicon等）直接返回
+  if (source.asset.url) {
+    return {
+      src: source.asset.url,
+      width: 32,
+      height: 32,
+    };
+  }
+
   const dimensions = source?.asset?._ref.split("-")[2];
 
   const [width, height] = dimensions

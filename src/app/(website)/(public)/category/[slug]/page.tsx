@@ -6,43 +6,47 @@ import { getItems } from "@/data/item";
 import {
   DEFAULT_SORT,
   ITEMS_PER_PAGE,
-  SORT_FILTER_LIST,
 } from "@/lib/constants";
 import { constructMetadata } from "@/lib/metadata";
-import type {
-  CategoryQueryResult,
-  SponsorItemListQueryResult,
-} from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import { categoryQuery, sponsorItemListQuery } from "@/sanity/lib/queries";
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+
+// 分类slug和名称对应表
+const categoryMap: Record<string, { name: string; description: string; count: number }> = {
+  "ai-code-editors": {
+    name: "AI Code Editors",
+    description: "AI-powered code editors like VS Code, Cursor, Zed and more",
+    count: 50,
+  },
+  "ai-pair-programmers": {
+    name: "AI Pair Programmers",
+    description: "AI coding assistants like Copilot, Claude Code, Aider and more",
+    count: 50,
+  },
+  "llm-apis": {
+    name: "LLM APIs",
+    description: "LLM APIs from OpenAI, Anthropic, Google, Together AI and more",
+    count: 50,
+  },
+  "ai-app-builders": {
+    name: "AI App Builders",
+    description: "No-code AI app builders like Bolt.new, v0, Lovable and more",
+    count: 50,
+  },
+};
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const category = await sanityFetch<CategoryQueryResult>({
-    query: categoryQuery,
-    params: { slug: params.slug },
-  });
-  if (!category) {
-    console.warn(
-      `generateMetadata, category not found for slug: ${params.slug}`,
-    );
-    return;
-  }
-
-  const ogImageUrl = new URL(`${siteConfig.url}/api/og`);
-  ogImageUrl.searchParams.append("title", category.name);
-  ogImageUrl.searchParams.append("description", category.description || "");
-  ogImageUrl.searchParams.append("type", "Category");
+  const cat = categoryMap[params.slug];
+  if (!cat) return;
 
   return constructMetadata({
-    title: `${category.name}`,
-    description: category.description,
+    title: `${cat.name} - AI Developer Tools`,
+    description: cat.description,
     canonicalUrl: `${siteConfig.url}/category/${params.slug}`,
-    // image: ogImageUrl.toString(),
   });
 }
 
@@ -53,45 +57,35 @@ export default async function CategoryPage({
   params: { slug: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const sponsorItems =
-    (await sanityFetch<SponsorItemListQueryResult>({
-      query: sponsorItemListQuery,
-    })) || [];
-  // console.log("CategoryPage, sponsorItems", sponsorItems);
-  const showSponsor = true;
-  const hasSponsorItem = showSponsor && sponsorItems.length > 0;
+  const cat = categoryMap[params.slug];
+  if (!cat) notFound();
 
-  const { sort, page } = searchParams as { [key: string]: string };
-  const { sortKey, reverse } =
-    SORT_FILTER_LIST.find((item) => item.slug === sort) || DEFAULT_SORT;
+  const { page } = searchParams as { [key: string]: string };
   const currentPage = page ? Number(page) : 1;
   const { items, totalCount } = await getItems({
     category: params.slug,
-    sortKey,
-    reverse,
     currentPage,
-    hasSponsorItem,
+    hasSponsorItem: false,
   });
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE);
-  console.log(
-    "CategoryPage, totalCount",
-    totalCount,
-    ", totalPages",
-    totalPages,
-  );
 
   return (
-    <div>
-      {/* when no items are found */}
+    <div className="max-w-7xl mx-auto px-4 py-12">
+      {/* 分类标题 */}
+      <div className="mb-10 text-center">
+        <h1 className="text-4xl font-bold mb-4">{cat.name}</h1>
+        <p className="text-lg text-muted-foreground">{cat.description}</p>
+        <p className="text-sm text-purple-600 mt-4">{totalCount} tools in this category</p>
+      </div>
+
       {items?.length === 0 && <EmptyGrid />}
 
-      {/* when items are found */}
       {items && items.length > 0 && (
-        <section className="">
+        <section>
           <ItemGrid
             items={items}
-            sponsorItems={sponsorItems}
-            showSponsor={showSponsor}
+            sponsorItems={[]}
+            showSponsor={false}
           />
 
           <div className="mt-8 flex items-center justify-center">

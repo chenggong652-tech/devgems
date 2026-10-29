@@ -1,119 +1,46 @@
-import { Icons } from "@/components/icons/icons";
-import { ModeToggle } from "@/components/layout/mode-toggle";
-import { footerConfig } from "@/config/footer";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
-import type * as React from "react";
-import Container from "../container";
-import { Logo } from "../logo";
-import BuiltWithButton from "../shared/built-with-button";
+import { siteConfig } from "@/config/site";
 
-export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
+export function Footer() {
   return (
-    <footer className={cn("border-t", className)}>
-      <Container className="grid grid-cols-2 gap-8 py-12 md:grid-cols-6">
-        <div className="flex flex-col items-start col-span-full md:col-span-2">
-          <div className="space-y-4">
-            <div className="items-center space-x-2 flex">
-              <Logo />
-
-              <span className="text-xl font-bold">{siteConfig.name}</span>
-            </div>
-
-            <p className="text-muted-foreground text-base p4-4 md:pr-12">
-              {siteConfig.tagline}
+    <footer className="border-t bg-muted/30 py-16 mt-20">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 className="font-bold text-lg mb-4">DevGems</h3>
+            <p className="text-sm text-muted-foreground">
+              Curated directory of the best AI coding tools for developers.
             </p>
-
-            <div className="flex items-center gap-2">
-              {siteConfig.links.github && (
-                <Link
-                  href={siteConfig.links.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="GitHub"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Icons.github className="size-4" aria-hidden="true" />
-                </Link>
-              )}
-              {siteConfig.links.twitter && (
-                <Link
-                  href={siteConfig.links.twitter}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Twitter"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Icons.twitter className="size-4" aria-hidden="true" />
-                </Link>
-              )}
-              {siteConfig.links.youtube && (
-                <Link
-                  href={siteConfig.links.youtube}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="YouTube"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Icons.youtube className="size-4" aria-hidden="true" />
-                </Link>
-              )}
-              {siteConfig.mail && (
-                <Link
-                  href={`mailto:${siteConfig.mail}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Email"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-md hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Icons.email className="size-4" aria-hidden="true" />
-                </Link>
-              )}
-            </div>
-
-            <BuiltWithButton />
           </div>
-        </div>
-
-        {footerConfig.links.map((section) => (
-          <div
-            key={section.title}
-            className="col-span-1 md:col-span-1 items-start"
-          >
-            <span className="text-sm font-semibold uppercase">
-              {section.title}
-            </span>
-            <ul className="mt-4 list-inside space-y-3">
-              {section.items?.map(
-                (link) =>
-                  link.href && (
-                    <li key={link.title}>
-                      <Link
-                        href={link.href}
-                        target={link.external ? "_blank" : undefined}
-                        className="text-sm text-muted-foreground hover:text-primary"
-                      >
-                        {link.title}
-                      </Link>
-                    </li>
-                  ),
-              )}
+          <div>
+            <h4 className="font-semibold mb-3">Categories</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="/category/ai-code-editors" className="hover:text-foreground">AI Code Editors</Link></li>
+              <li><Link href="/category/ai-pair-programmers" className="hover:text-foreground">AI Pair Programmers</Link></li>
+              <li><Link href="/category/llm-apis" className="hover:text-foreground">LLM APIs</Link></li>
+              <li><Link href="/category/ai-app-builders" className="hover:text-foreground">AI App Builders</Link></li>
             </ul>
           </div>
-        ))}
-      </Container>
-
-      <div className="border-t py-4">
-        <Container className="flex items-center justify-between">
-          <span className="text-muted-foreground text-sm">
-            Copyright &copy; {new Date().getFullYear()} All Rights Reserved.
-          </span>
-
-          <div className="flex items-center gap-3">
-            <ModeToggle />
+          <div>
+            <h4 className="font-semibold mb-3">Resources</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="/deals" className="hover:text-foreground">🎓 Student Deals</Link></li>
+            </ul>
           </div>
-        </Container>
+          <div>
+            <h4 className="font-semibold mb-3">Legal</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><Link href="/privacy" className="hover:text-foreground">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="hover:text-foreground">Terms of Service</Link></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} DevGems. Curated for developers.</p>
+          <p className="text-[10px] text-gray-400 mt-2 md:mt-0">
+            *This site may earn affiliate commissions from qualifying purchases at no extra cost to you.
+          </p>
+        </div>
       </div>
     </footer>
   );

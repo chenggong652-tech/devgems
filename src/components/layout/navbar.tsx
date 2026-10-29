@@ -3,7 +3,6 @@
 import { LoginWrapper } from "@/components/auth/login-button";
 import Container from "@/components/container";
 import { Icons } from "@/components/icons/icons";
-import { ModeToggle } from "@/components/layout/mode-toggle";
 import { UserButton } from "@/components/layout/user-button";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +17,7 @@ import { siteConfig } from "@/config/site";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useScroll } from "@/hooks/use-scroll";
 import { cn } from "@/lib/utils";
-import type { DashboardConfig, MarketingConfig } from "@/types";
+import type { MarketingConfig } from "@/types";
 import { ArrowRightIcon, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,35 +27,24 @@ import { Logo } from "../logo";
 
 interface NavBarProps {
   scroll?: boolean;
-  config: DashboardConfig | MarketingConfig;
+  config: MarketingConfig;
 }
 
 export function Navbar({ scroll = false, config }: NavBarProps) {
   const scrolled = useScroll(50);
   const user = useCurrentUser();
-  // console.log(`navbar: user:`, user);
-
   const pathname = usePathname();
-  // console.log(`Navbar, pathname: ${pathname}`);
   const links = config.menus;
-  // console.log(`Navbar, links: ${links.map((link) => link.title)}`);
 
   const isLinkActive = (href: string) => {
-    if (href === "/") {
-      return pathname === "/";
-    }
-    // console.log(`Navbar, href: ${href}, pathname: ${pathname}`);
+    if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
   };
 
   const [open, setOpen] = useState(false);
-  // prevent body scroll when modal is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "auto";
   }, [open]);
 
   return (
@@ -69,16 +57,11 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
         )}
       >
         <Container className="flex h-16 items-center justify-between">
-          {/* navbar left show logo and links */}
           <div className="flex items-center gap-6 md:gap-10">
-            {/* logo */}
             <Link href="/" className="flex items-center space-x-2">
               <Logo />
-
               <span className="text-xl font-bold">{siteConfig.name}</span>
             </Link>
-
-            {/* links */}
             {links && links.length > 0 ? (
               <NavigationMenu>
                 <NavigationMenuList>
@@ -104,27 +87,20 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
               </NavigationMenu>
             ) : null}
           </div>
-
-          {/* navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
+            <Link href="/deals" className="px-4 py-2 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm font-medium hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors">
+              🎓 Student Deals
+            </Link>
             {user ? (
-              <div className="flex items-center">
-                <UserButton />
-              </div>
+              <UserButton />
             ) : (
               <LoginWrapper mode="modal" asChild>
-                <Button
-                  className="flex gap-2 px-5 rounded-full"
-                  variant="default"
-                  size="default"
-                >
+                <Button className="flex gap-2 px-5 rounded-full" variant="default" size="default">
                   <span>Sign In</span>
                   <ArrowRightIcon className="size-4" />
                 </Button>
               </LoginWrapper>
             )}
-
-            {/* <ModeToggle /> */}
           </div>
         </Container>
       </header>
@@ -132,32 +108,19 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
       {/* Mobile View */}
       <header className="md:hidden flex justify-center bg-background/60 backdrop-blur-xl transition-all">
         <div className="w-full px-4 h-16 flex items-center justify-between">
-          {/* mobile navbar left show menu icon when closed & show sheet when menu is open */}
           <div className="flex items-center gap-x-4">
             <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-9 shrink-0"
-                >
+                <Button variant="outline" size="icon" className="size-9 shrink-0">
                   <MenuIcon className="size-5" />
-                  <span className="sr-only">Toggle navigation menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="flex flex-col p-0">
                 <div className="flex h-screen flex-col">
-                  {/* logo */}
-                  <Link
-                    href="/"
-                    className="flex items-center space-x-2 pl-4 pt-4"
-                    onClick={() => setOpen(false)}
-                  >
+                  <Link href="/" className="flex items-center space-x-2 pl-4 pt-4" onClick={() => setOpen(false)}>
                     <Logo />
-
                     <span className="text-xl font-bold">{siteConfig.name}</span>
                   </Link>
-
                   <nav className="flex flex-1 flex-col gap-2 p-2 pt-8 font-medium">
                     {links.map((item) => {
                       const Icon = Icons[item.icon || "arrowRight"];
@@ -165,17 +128,10 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                         <Link
                           key={item.title}
                           href={item.disabled ? "#" : item.href}
-                          target={item.external ? "_blank" : ""}
-                          onClick={() => {
-                            if (!item.disabled) setOpen(false);
-                          }}
+                          onClick={() => { if (!item.disabled) setOpen(false); }}
                           className={cn(
                             "flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted",
-                            isLinkActive(item.href)
-                              ? "bg-muted text-foreground"
-                              : "text-muted-foreground hover:text-foreground",
-                            item.disabled &&
-                              "cursor-not-allowed opacity-80 hover:bg-transparent hover:text-muted-foreground",
+                            isLinkActive(item.href) ? "bg-muted text-foreground" : "text-muted-foreground hover:text-foreground",
                           )}
                         >
                           <Icon className="size-5" />
@@ -183,43 +139,35 @@ export function Navbar({ scroll = false, config }: NavBarProps) {
                         </Link>
                       );
                     })}
+                    {/* 学生优惠入口 */}
+                    <Link
+                      href="/deals"
+                      onClick={() => setOpen(false)}
+                      className="flex items-center rounded-md gap-2 p-2 text-sm font-medium hover:bg-muted"
+                    >
+                      <span>🎓</span>
+                      Student Deals
+                    </Link>
                   </nav>
                 </div>
               </SheetContent>
             </Sheet>
-
-            {/* logo */}
-            <Link
-              href="/"
-              className="flex items-center space-x-2"
-              onClick={() => setOpen(false)}
-            >
+            <Link href="/" className="flex items-center space-x-2" onClick={() => setOpen(false)}>
               <Logo className="size-8" />
-
               <span className="text-xl font-bold">{siteConfig.name}</span>
             </Link>
           </div>
-
-          {/* mobile navbar right show sign in or account */}
           <div className="flex items-center gap-x-4">
             {user ? (
-              <div className="flex items-center">
-                <UserButton />
-              </div>
+              <UserButton />
             ) : (
               <LoginWrapper mode="redirect" asChild>
-                <Button
-                  className="flex gap-2 px-5 rounded-full"
-                  variant="default"
-                  size="default"
-                >
+                <Button className="flex gap-2 px-5 rounded-full" variant="default" size="default">
                   <span>Sign In</span>
                   <ArrowRightIcon className="size-4" />
                 </Button>
               </LoginWrapper>
             )}
-
-            {/* <ModeToggle /> */}
           </div>
         </div>
       </header>

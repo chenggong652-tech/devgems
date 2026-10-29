@@ -89,7 +89,7 @@ export function FreePlanButton({ item, className }: FreePlanButtonProps) {
     >
       {!item ? (
         <div className="flex items-center justify-center gap-2">
-          <span>Go Submit</span>
+          <span>Get Started</span>
           <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-1" />
         </div>
       ) : item.publishDate ? (

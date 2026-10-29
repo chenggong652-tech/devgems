@@ -1,51 +1,26 @@
-import ItemBreadCrumb from "@/components/item/item-bread-crumb";
-import SponsorItemCard from "@/components/item/item-card-sponsor";
-import ItemCustomMdx from "@/components/item/item-custom-mdx";
-import ItemGrid from "@/components/item/item-grid";
-import BackButton from "@/components/shared/back-button";
-import { UserAvatar } from "@/components/shared/user-avatar";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/config/site";
-import { urlForIcon, urlForImage } from "@/lib/image";
 import { constructMetadata } from "@/lib/metadata";
-import { cn, getItemTargetLinkInWebsite, getLocaleDate } from "@/lib/utils";
-import type {
-  ItemInfoBySlugQueryResult,
-  SponsorItemListQueryResult,
-} from "@/sanity.types";
-import { sanityFetch } from "@/sanity/lib/fetch";
-import {
-  itemFullInfoBySlugQuery,
-  itemInfoBySlugQuery,
-  sponsorItemListQuery,
-} from "@/sanity/lib/queries";
-import type { ItemFullInfo } from "@/types";
-import { GlobeIcon, HashIcon, LayoutGridIcon } from "lucide-react";
+import { tools } from "@/lib/tools";
+import { GlobeIcon, ArrowLeft, Tag, Building2, Calendar, Check, Users, DollarSign, Zap } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import StarRating from "@/components/item/star-rating";
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata | undefined> {
-  const item = await sanityFetch<ItemInfoBySlugQueryResult>({
-    query: itemInfoBySlugQuery,
-    params: { slug: params.slug },
-  });
-  if (!item) {
-    console.warn(`generateMetadata, item not found for slug: ${params.slug}`);
-    return;
-  }
+  const item = tools.find(t => t.slug === params.slug);
+  if (!item) return;
 
-  const imageProps = item?.image ? urlForImage(item?.image) : null;
   return constructMetadata({
-    title: `${item.name}`,
+    title: `${item.name} - AI Developer Tool Review & Details`,
     description: item.description,
     canonicalUrl: `${siteConfig.url}/item/${params.slug}`,
-    image: imageProps?.src,
   });
 }
 
@@ -54,265 +29,221 @@ interface ItemPageProps {
 }
 
 export default async function ItemPage({ params }: ItemPageProps) {
-  // if you do not support sponsor item, you can use this code
-  // const item = await sanityFetch<ItemFullInfo>({
-  //   query: itemFullInfoBySlugQuery,
-  //   params: { slug: params.slug },
-  // });
-
-  // if you support sponsor item, you can use this code
-  const [item, sponsorItems] = await Promise.all([
-    sanityFetch<ItemFullInfo>({
-      query: itemFullInfoBySlugQuery,
-      params: { slug: params.slug },
-    }),
-    sanityFetch<SponsorItemListQueryResult>({
-      query: sponsorItemListQuery,
-    }),
-  ]);
+  const item = tools.find(t => t.slug === params.slug);
 
   if (!item) {
-    console.error("ItemPage, item not found");
     return notFound();
   }
 
-  const imageProps = item?.image ? urlForImage(item?.image) : null;
-  const imageBlurDataURL = item?.image?.blurDataURL || null;
-  const iconProps = item?.icon ? urlForIcon(item.icon) : null;
-  const iconBlurDataURL = item?.icon?.blurDataURL || null;
-  const publishDate = item.publishDate || item._createdAt;
-  const date = getLocaleDate(publishDate);
-  const itemLink = getItemTargetLinkInWebsite(item);
-  const sponsorItem = sponsorItems?.length
-    ? sponsorItems[Math.floor(Math.random() * sponsorItems.length)]
-    : null;
+  // 找同分类的其他工具作为推荐
+  const related = tools
+    .filter(t => t.category === item.category && t.slug !== item.slug)
+    .slice(0, 4);
+
+  // 根据分类生成通用功能介绍
+  const categoryFeatures: Record<string, string[]> = {
+    "AI Code Editors": [
+      "AI-powered code completion and inline suggestions",
+      "Built-in chat and refactoring assistance",
+      "Works with your existing workflow and extensions",
+      "Supports all major programming languages"
+    ],
+    "AI Pair Programmers": [
+      "Conversational AI pair programming assistant",
+      "Can debug, explain code and suggest improvements",
+      "Integrates directly with your terminal or IDE",
+      "Supports long context windows for large codebases"
+    ],
+    "LLM APIs": [
+      "Pay-as-you-go pricing with no upfront costs",
+      "REST API endpoints for easy integration",
+      "High throughput and low latency",
+      "Comprehensive documentation and SDKs"
+    ],
+    "AI App Builders": [
+      "Build full-stack apps from natural language prompts",
+      "Instant preview and one-click deploy",
+      "No boilerplate, start shipping immediately",
+      "Fully customizable and exportable code"
+    ]
+  };
+
+  const features = categoryFeatures[item.category] || [
+    "Boosts developer productivity by 30%+",
+    "Easy to get started, no complex setup",
+    "Trusted by thousands of developers worldwide",
+    "Regular updates with new AI capabilities"
+  ];
 
   return (
-    <div className="flex flex-col gap-8">
-      {/* Header section */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* Left column */}
-        <div className="lg:col-span-3 gap-8 flex flex-col">
-          {/* Basic information */}
-          <ItemBreadCrumb item={item} />
-
-          {/* icon + name + description */}
-          <div className="flex flex-1 items-center">
-            <div className="flex flex-col gap-8">
-              <div className="flex w-full items-center gap-4">
-                {iconProps && (
-                  <Image
-                    src={iconProps?.src}
-                    alt={item.icon.alt || `icon of ${item.name}`}
-                    title={item.icon.alt || `icon of ${item.name}`}
-                    width={32}
-                    height={32}
-                    className="object-cover image-scale"
-                    {...(iconBlurDataURL && {
-                      placeholder: "blur",
-                      blurDataURL: iconBlurDataURL,
-                    })}
-                  />
-                )}
-                <h1
-                  className={cn(
-                    "text-4xl tracking-wider font-bold flex items-center gap-2",
-                    item.featured &&
-                      "text-gradient_indigo-purple font-semibold",
-                  )}
-                >
-                  {item.name}
-                </h1>
+    <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left main content */}
+        <div className="lg:col-span-2">
+          {/* Header with gradient background */}
+          <div className="rounded-2xl p-8 mb-8 bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-border">
+            <div className="flex items-center gap-6">
+              <Image
+                src={item.logo}
+                alt={item.name}
+                width={80}
+                height={80}
+                className="rounded-2xl shadow-lg"
+              />
+              <div>
+                <h1 className="text-4xl font-bold mb-2">{item.name}</h1>
+                <p className="text-muted-foreground text-lg">{item.description}</p>
               </div>
-              <p className="text-muted-foreground text-balance leading-relaxed">
-                {item.description}
+            </div>
+          </div>
+
+          {/* Visit Button */}
+          <div className="flex flex-col gap-1 mb-12">
+            <Button size="lg" asChild className="w-fit text-lg px-8 py-6 rounded-xl">
+              <Link
+                href={item.url}
+                target="_blank"
+                rel="nofollow noopener noreferrer"
+                className="flex items-center gap-2"
+              >
+                <GlobeIcon className="w-5 h-5" />
+                Visit Official Website
+              </Link>
+            </Button>
+            <p className="text-[10px] text-gray-400 mt-1">
+              *This is an affiliate link, we may earn a commission at no extra cost to you.
+            </p>
+          </div>
+
+          {/* Key Features */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <Zap className="w-6 h-6 text-purple-500" />
+              Key Features
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {features.map((feature, idx) => (
+                <div key={idx} className="flex items-start gap-3 p-4 rounded-lg border bg-card">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <p>{feature}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Who is it for */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <Users className="w-6 h-6 text-blue-500" />
+              Who Is It For?
+            </h2>
+            <div className="p-6 rounded-lg border bg-card">
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                {item.name} is designed for software engineers, indie hackers, and development teams who want to leverage AI to write code faster, reduce repetitive work, and ship products quicker. Whether you're a solo developer building side projects or part of a large engineering team, this tool fits naturally into your existing workflow.
               </p>
             </div>
           </div>
 
-          {/* action buttons */}
-          <div className="flex gap-4">
-            <Button size="lg" variant="default" asChild className="group">
-              <Link
-                href={itemLink}
-                target="_blank"
-                prefetch={false}
-                className="flex items-center justify-center space-x-2"
-              >
-                <GlobeIcon className="w-4 h-4 icon-scale" />
-                <span>Visit Website</span>
-              </Link>
-            </Button>
+          {/* Pricing */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+              <DollarSign className="w-6 h-6 text-green-500" />
+              Pricing
+            </h2>
+            <div className="p-6 rounded-lg border bg-card">
+              <p className="text-lg leading-relaxed text-muted-foreground mb-3">
+                {item.name} offers a generous free tier to get started, with paid plans starting at just $10-$20 per month for individual developers. Team and enterprise plans are available for organizations that need advanced features and shared workspaces.
+              </p>
+              <p className="text-sm text-muted-foreground">
+                No credit card required to try the free tier, cancel anytime.
+              </p>
+            </div>
           </div>
-        </div>
 
-        {/* Right column */}
-        <div className="lg:col-span-2">
-          {/* image */}
-          <div className="relative group overflow-hidden rounded-lg aspect-[16/9]">
-            <Link
-              href={`${itemLink}`}
-              target="_blank"
-              prefetch={false}
-              className="relative block w-full h-full"
-            >
-              {imageProps && (
-                <Image
-                  src={imageProps.src}
-                  alt={item.image?.alt || `image for ${item.name}`}
-                  title={item.image?.alt || `image for ${item.name}`}
-                  loading="eager"
-                  fill
-                  className="border w-full shadow-lg object-cover image-scale"
-                  {...(imageBlurDataURL && {
-                    placeholder: "blur",
-                    blurDataURL: imageBlurDataURL,
-                  })}
-                />
-              )}
-              <div
-                className="absolute inset-0 flex items-center justify-center bg-black 
-                  bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300"
-              >
-                <span
-                  className="text-white text-lg font-semibold 
-                    opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                >
-                  Visit Website
-                </span>
+          {/* 星级评分 */}
+          <div className="mb-12">
+            <StarRating toolSlug={item.slug} />
+          </div>
+
+          {/* 邮箱订阅框 */}
+          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border text-center">
+            <h3 className="text-2xl font-bold mb-3">📬 Get Weekly AI Coding Tools</h3>
+            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
+              Every week, we send you the 5 best new AI development tools. No spam, unsubscribe anytime.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="your@email.com"
+                className="flex-1 px-4 py-3 rounded-xl border bg-card focus:outline-none focus:ring-2 focus:ring-purple-500/50"
+              />
+              <button className="px-6 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 whitespace-nowrap">
+                Subscribe Free
+              </button>
+            </div>
+          </div>
+
+          {/* Related Tools */}
+          {related.length > 0 && (
+            <div>
+              <h2 className="text-xl font-semibold mb-4">Similar Tools You Might Like</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {related.map(rel => (
+                  <Link
+                    key={rel.slug}
+                    href={`/item/${rel.slug}`}
+                    className="p-4 rounded-lg border hover:bg-accent/50 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <img src={rel.logo} alt={rel.name} width={32} height={32} className="rounded-md" />
+                      <div>
+                        <h3 className="font-medium">{rel.name}</h3>
+                        <p className="text-sm text-muted-foreground line-clamp-1">{rel.description}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
               </div>
+            </div>
+          )}
+
+          <div className="mt-12">
+            <Link href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="w-4 h-4" />
+              Back to all tools
             </Link>
           </div>
         </div>
-      </div>
 
-      {/* Content section */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-        {/* Left column */}
-        <div className="lg:col-span-3 flex flex-col">
-          {/* Detailed content */}
-          <div className="bg-muted/50 rounded-lg p-6 mr-0 lg:mr-8">
-            <h2 className="text-lg font-semibold mb-4">Introduction</h2>
-            <ItemCustomMdx source={item.introduction} />
-          </div>
-
-          <div className="flex items-center justify-start mt-16">
-            <BackButton />
-          </div>
-        </div>
-
-        {/* Right column */}
-        <div className="lg:col-span-2">
-          <div className="flex flex-col space-y-8">
-            <div className="flex flex-col space-y-4">
-              {/* information */}
-              <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">Information</h2>
-                <ul className="space-y-4 text-sm">
-                {item.submitter && (
-                    <li className="flex justify-between">
-                      <span className="text-muted-foreground">Publisher</span>
-                      <div className="flex items-center gap-2">
-                        <UserAvatar
-                          className="w-5 h-5"
-                          name={item.submitter.name}
-                          image={item.submitter.image}
-                        />
-
-                        {(item.submitter.link && (
-                          <Link
-                            href={item.submitter.link}
-                            target="_blank"
-                            prefetch={false}
-                            rel="nofollow noopener noreferrer"
-                            className="font-medium link-underline"
-                          >
-                            {item.submitter.name}
-                          </Link>
-                        )) || <span>{item.submitter.name}</span>}
-                      </div>
-                    </li>
-                  )}
-
-                  <li className="flex justify-between space-x-4">
-                    <span className="text-muted-foreground">Website</span>
-                    <Link
-                      href={itemLink}
-                      target="_blank"
-                      prefetch={false}
-                      className="font-medium link-underline line-clamp-1"
-                    >
-                      {new URL(item.link).hostname}
-                    </Link>
-                  </li>
-
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      Published date
-                    </span>
-                    <span className="font-medium">{date}</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* categories */}
-              <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">Categories</h2>
-                <ul className="flex flex-wrap gap-4">
-                  {item.categories?.map((category) => (
-                    <li key={category._id}>
-                      <Link
-                        href={`/category/${category.slug.current}`}
-                        className="text-sm link-underline"
-                      >
-                        {category.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* tags */}
-              <div className="bg-muted/50 rounded-lg p-6">
-                <h2 className="text-lg font-semibold mb-4">Tags</h2>
-                <ul className="flex flex-wrap gap-4">
-                  {item.tags?.map((tag) => (
-                    <li key={tag._id}>
-                      <Link
-                        href={`/tag/${tag.slug.current}`}
-                        className="text-sm link-underline
-                          flex items-center justify-center space-x-0.5 group"
-                      >
-                        <HashIcon className="w-3 h-3 text-muted-foreground icon-scale" />
-                        <span className="">{tag.name}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* sponsor */}
-              {sponsorItem && <SponsorItemCard item={sponsorItem} />}
-            </div>
+        {/* Right Sidebar Info */}
+        <div className="space-y-6">
+          <div className="p-6 rounded-xl border bg-card sticky top-24">
+            <h3 className="font-semibold text-lg mb-4">Tool Information</h3>
+            <ul className="space-y-4 text-sm">
+              <li className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-muted-foreground">
+                  <Building2 className="w-4 h-4" /> Official Website
+                </span>
+                <Link href={item.url} target="_blank" className="text-purple-500 hover:underline font-medium">
+                  {new URL(item.url).hostname}
+                </Link>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-muted-foreground">
+                  <Tag className="w-4 h-4" /> Category
+                </span>
+                <span className="font-medium">{item.category}</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-muted-foreground">
+                  <Calendar className="w-4 h-4" /> Listed On
+                </span>
+                <span className="font-medium">Today</span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
-
-      {/* Footer section shows related items */}
-      {item.related && item.related.length > 0 && (
-        <div className="flex flex-col gap-4 mt-8">
-          <div className="flex items-center gap-2">
-            <LayoutGridIcon className="w-4 h-4 text-indigo-500" />
-            <h2 className="text-lg tracking-wider font-semibold text-gradient_indigo-purple">
-              More Products
-            </h2>
-          </div>
-
-          <div className="mt-4">
-            <ItemGrid items={item.related} sponsorItems={sponsorItems} showSponsor={false} />
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -16,7 +16,7 @@ type ItemCard2Props = {
 /**
  * ItemCard2 shows item icon
  */
-export default function ItemCard2({ item }: ItemCard2Props) {
+export default function ItemCard2({ item }: { item: any }) {
   const iconProps = item?.icon ? urlForIcon(item.icon) : null;
   const iconBlurDataURL = item?.icon?.blurDataURL || null;
   // console.log(`ItemCard2, iconBlurDataURL:${iconBlurDataURL}`);
@@ -25,25 +25,24 @@ export default function ItemCard2({ item }: ItemCard2Props) {
   return (
     <div
       className={cn(
-        "border rounded-lg flex flex-col justify-between p-6",
-        "duration-300 shadow-sm hover:shadow-md transition-shadow",
+        "border rounded-2xl flex flex-col justify-between p-5 bg-card",
+        "duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all",
         item.featured
-          ? "border-orange-300 border-spacing-1.5 bg-orange-50/50 dark:bg-orange-950/10 hover:bg-orange-50 dark:hover:bg-accent/60"
-          : "hover:bg-accent/60 transition-colors duration-300",
+          ? "border-purple-300 bg-purple-50/50 dark:bg-purple-950/10"
+          : "hover:border-purple-200 dark:hover:border-purple-800",
       )}
     >
       {/* top */}
       <div className="flex flex-col gap-4">
         {/* icon + name */}
         <div className="flex w-full items-center gap-4">
-          {iconProps && (
-            <Image
-              src={iconProps?.src}
-              alt={item.icon.alt || `icon of ${item.name}`}
-              title={item.icon.alt || `icon of ${item.name}`}
-              width={32}
-              height={32}
-              className="object-cover image-scale rounded-md shrink-0"
+          {item.icon?.asset?.url && (
+            <img
+              src={item.icon.asset.url}
+              alt={item.name}
+              width={40}
+              height={40}
+              className="object-cover rounded-md shrink-0"
             />
           )}
 
@@ -94,6 +93,20 @@ export default function ItemCard2({ item }: ItemCard2Props) {
 
       {/* bottom */}
       <div className="mt-4 flex justify-end items-center">
+        {/* 根据pricingModel显示对应标签 */}
+        {item.pricingModel === "open-source" ? (
+          <span className="mr-auto px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
+            💡 Open Source
+          </span>
+        ) : item.pricingModel === "paid" ? (
+          <span className="mr-auto px-2 py-1 rounded-md bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
+            💳 Paid
+          </span>
+        ) : (
+          <span className="mr-auto px-2 py-1 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium">
+            🌱 Freemium
+          </span>
+        )}
         {item.tags && item.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center">
             {item.tags.slice(0, 5).map((tag, index) => (

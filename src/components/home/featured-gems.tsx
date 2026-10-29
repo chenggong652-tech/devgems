@@ -1,55 +1,23 @@
 import Link from "next/link";
-
-const featured = [
-  {
-    name: "Cursor",
-    slug: "cursor",
-    description: "AI-first code editor, built for the 10x developer.",
-    gradient: "from-blue-50 to-indigo-50",
-  },
-  {
-    name: "GitHub Copilot",
-    slug: "github-copilot",
-    description: "AI pair programmer that helps you write code faster.",
-    gradient: "from-green-50 to-emerald-50",
-  },
-  {
-    name: "Claude Code",
-    slug: "claude-code",
-    description: "Agentic coding assistant from Anthropic.",
-    gradient: "from-orange-50 to-amber-50",
-  },
-  {
-    name: "Aider",
-    slug: "aider",
-    description: "AI pair programming in your terminal.",
-    gradient: "from-purple-50 to-violet-50",
-  },
-  {
-    name: "Lovable",
-    slug: "lovable",
-    description: "Build full-stack apps with prompts.",
-    gradient: "from-pink-50 to-rose-50",
-  },
-];
+import { tools } from "@/lib/tools";
 
 export default function FeaturedGems() {
+  // 取我们标记为featured的8个头部工具
+  const featured = tools.filter(t => t.featured).slice(0, 8);
+
   return (
-    <section className="py-12">
-      <h2 className="text-2xl font-bold text-center mb-8">
-        Featured Gems
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto px-4">
+    <section className="py-12 max-w-7xl mx-auto px-4">
+      <h2 className="text-2xl font-bold text-center mb-8">Featured Gems</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {featured.map((tool) => (
           <Link
             key={tool.slug}
             href={`/item/${tool.slug}`}
-            className={`group rounded-xl border bg-gradient-to-br ${tool.gradient} p-6 transition-all hover:shadow-lg`}
+            className="p-5 rounded-2xl border bg-card hover:shadow-xl transition-all hover:-translate-y-1 hover:border-purple-200 dark:hover:border-purple-800 flex flex-col items-center gap-3 text-center"
           >
-            <h3 className="font-bold text-lg mb-2 group-hover:text-primary transition-colors">
-              {tool.name}
-            </h3>
-            <p className="text-sm text-muted-foreground">{tool.description}</p>
+            <img src={tool.logo} alt={tool.name} width={48} height={48} className="rounded-xl" />
+            <h3 className="font-semibold text-sm">{tool.name}</h3>
+            <p className="text-xs text-muted-foreground line-clamp-2">{tool.description}</p>
           </Link>
         ))}
       </div>
