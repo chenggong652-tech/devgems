@@ -46,8 +46,9 @@ export default function HomeHero() {
 
         {/* 统计数字 */}
         <p className="text-base text-muted-foreground">
-          <span className="font-semibold text-primary">100+</span> Handpicked AI Coding Gems ·{" "}
-          <span className="font-semibold text-primary">4</span> Categories
+          <span className="font-semibold text-primary">200+</span> Handpicked AI Coding Tools ·{" "}
+          <span className="font-semibold text-primary">4</span> Categories ·{" "}
+          <span className="font-semibold text-primary">Free & Open Source Options</span>
         </p>
 
         <div className="w-full">
