@@ -6,9 +6,7 @@ export const footerConfig: FooterConfig = {
       title: "Product",
       items: [
         { title: "Search", href: "/search" },
-        { title: "Collection", href: "/collection" },
         { title: "Category", href: "/category" },
-        { title: "Tag", href: "/tag" },
       ],
     },
     {
@@ -21,7 +19,6 @@ export const footerConfig: FooterConfig = {
     {
       title: "Pages",
       items: [
-        { title: "About Us", href: "/about" },
         { title: "Privacy Policy", href: "/privacy" },
         { title: "Terms of Service", href: "/terms" },
         { title: "Sitemap", href: "/sitemap.xml" },
