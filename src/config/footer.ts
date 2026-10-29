@@ -15,9 +15,7 @@ export const footerConfig: FooterConfig = {
       title: "Resources",
       items: [
         { title: "Blog", href: "/blog" },
-        { title: "Pricing", href: "/pricing" },
-        { title: "Submit", href: "/submit" },
-        { title: "Studio", href: "/studio", external: true },
+        { title: "Student Deals", href: "/deals" },
       ],
     },
     {

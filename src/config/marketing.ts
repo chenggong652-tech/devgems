@@ -18,9 +18,9 @@ export const marketingConfig: MarketingConfig = {
       icon: "blog",
     },
     {
-      title: "Pricing",
-      href: "/pricing",
-      icon: "pricing",
+      title: "Student Deals",
+      href: "/deals",
+      icon: "deals",
     },
   ],
 };
