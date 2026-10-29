@@ -1,14 +1,22 @@
 import type { MetadataRoute } from "next";
+import { tools } from "@/lib/tools";
 
 const site_url = "https://devgems.io";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
+  // 基础页面
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: `${site_url}/`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 1.0,
+    },
+    {
+      url: `${site_url}/deals`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${site_url}/category/ai-code-editors`,
@@ -45,4 +53,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
   ];
+
+  // 自动加所有工具详情页
+  const toolPages: MetadataRoute.Sitemap = tools.map((tool) => ({
+    url: `${site_url}/item/${tool.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...toolPages];
 }
