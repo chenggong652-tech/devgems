@@ -172,6 +172,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       priority: 0.3,
     },
+    {
+      url: `${site_url}/links`,
+      lastModified: new Date(),
+      priority: 0.4,
+    },
   ];
 
   // 自动加所有工具详情页

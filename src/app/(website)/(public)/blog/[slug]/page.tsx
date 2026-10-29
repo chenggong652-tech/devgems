@@ -3,6 +3,7 @@ import BlogCustomMdx from "@/components/blog/blog-custom-mdx";
 import BlogGrid from "@/components/blog/blog-grid";
 import { BlogToc } from "@/components/blog/blog-toc";
 import { UserAvatar } from "@/components/shared/user-avatar";
+import { ShareButtons } from "@/components/shared/ShareButtons";
 import { siteConfig } from "@/config/site";
 import { urlForImage } from "@/lib/image";
 import { portableTextToMarkdown } from "@/lib/mdx";
@@ -73,6 +74,45 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="flex flex-col gap-8">
+      {/* Breadcrumb structured data for Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": siteConfig.url
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Blog",
+                "item": `${siteConfig.url}/blog`
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": post.title,
+                "item": `${siteConfig.url}/blog/${slug}`
+              }
+            ]
+          })
+        }}
+      />
+      {/* Breadcrumb navigation UI */}
+      <nav className="text-sm text-muted-foreground flex items-center gap-2">
+        <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+        <span>/</span>
+        <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+        <span>/</span>
+        <span className="text-foreground font-medium line-clamp-1">{post.title}</span>
+      </nav>
+
       {/* Content section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left column */}
@@ -108,6 +148,9 @@ export default async function PostPage({ params }: PostPageProps) {
           <div className="mt-4">
             {markdownContent && <BlogCustomMdx source={markdownContent} />}
           </div>
+
+          {/* Share buttons */}
+          <ShareButtons url={`${siteConfig.url}/blog/${slug}`} title={post.title} />
 
           <div className="flex items-center justify-start mt-16">
             <AllPostsButton />

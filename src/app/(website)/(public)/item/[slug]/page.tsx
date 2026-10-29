@@ -9,6 +9,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import StarRating from "@/components/item/star-rating";
 import SubscribeForm from "@/components/item/subscribe-form";
+import { ShareButtons } from "@/components/shared/ShareButtons";
 
 export async function generateMetadata({
   params,
@@ -78,9 +79,50 @@ export default async function ItemPage({ params }: ItemPageProps) {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
+      {/* Breadcrumb structured data for Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": siteConfig.url
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": item.category,
+                "item": `${siteConfig.url}/category/${item.category.toLowerCase().replace(/\s+/g, '-')}`
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": item.name,
+                "item": `${siteConfig.url}/item/${item.slug}`
+              }
+            ]
+          })
+        }}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left main content */}
         <div className="lg:col-span-2">
+          {/* Breadcrumb navigation */}
+          <nav className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
+            <Link href="/" className="hover:text-foreground transition-colors">Home</Link>
+            <span>/</span>
+            <Link href={`/category/${item.category.toLowerCase().replace(/\s+/g, '-')}`} className="hover:text-foreground transition-colors">
+              {item.category}
+            </Link>
+            <span>/</span>
+            <span className="text-foreground font-medium">{item.name}</span>
+          </nav>
+
           {/* Header with gradient background */}
           <div className="rounded-2xl p-8 mb-8 bg-gradient-to-br from-blue-500/10 to-purple-600/10 border border-border">
             <div className="flex items-center gap-6">
@@ -209,6 +251,9 @@ export default async function ItemPage({ params }: ItemPageProps) {
           <div className="mb-12">
             <SubscribeForm />
           </div>
+
+          {/* 分享按钮 */}
+          <ShareButtons url={`${siteConfig.url}/item/${item.slug}`} title={`${item.name} - AI Developer Tool Review`} />
 
           {/* Related Tools */}
           {related.length > 0 && (

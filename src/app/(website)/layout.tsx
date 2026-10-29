@@ -30,6 +30,13 @@ export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* RSS auto-discovery */}
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="DevGems Blog"
+          href="https://devgems.io/rss.xml"
+        />
         {/* Google tag (gtag.js) */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-YSGTWDZXGE"></script>
         <script
