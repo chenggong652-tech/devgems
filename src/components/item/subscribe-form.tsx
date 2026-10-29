@@ -5,11 +5,23 @@ import { useState } from "react";
 export default function SubscribeForm() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
+    if (!email) return;
+    setLoading(true);
+    try {
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
       setSubmitted(true);
+    } catch (err) {
+      alert("Something went wrong, please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,8 +51,8 @@ export default function SubscribeForm() {
           placeholder="your@email.com"
           className="flex-1 px-4 py-3 rounded-xl border bg-card focus:outline-none focus:ring-2 focus:ring-purple-500/50"
         />
-        <button type="submit" className="px-6 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 whitespace-nowrap">
-          Subscribe Free
+        <button type="submit" disabled={loading} className="px-6 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 whitespace-nowrap disabled:opacity-50">
+          {loading ? "Submitting..." : "Subscribe Free"}
         </button>
       </form>
     </div>

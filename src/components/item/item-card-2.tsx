@@ -25,13 +25,19 @@ export default function ItemCard2({ item }: { item: any }) {
   return (
     <div
       className={cn(
-        "border rounded-2xl flex flex-col justify-between p-5 bg-card",
+        "border rounded-2xl flex flex-col justify-between p-5 bg-card relative",
         "duration-300 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all",
         item.featured
           ? "border-purple-300 bg-purple-50/50 dark:bg-purple-950/10"
           : "hover:border-purple-200 dark:hover:border-purple-800",
       )}
     >
+      {/* NEW角标 */}
+      {item.isNew && (
+        <span className="absolute top-3 right-3 px-2 py-0.5 rounded-md bg-red-500 text-white text-xs font-bold">
+          NEW
+        </span>
+      )}
       {/* top */}
       <div className="flex flex-col gap-4">
         {/* icon + name */}

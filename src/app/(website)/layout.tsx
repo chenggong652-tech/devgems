@@ -9,6 +9,7 @@ import {
 import { auth } from "@/auth";
 import { Analytics } from "@/components/analytics/analytics";
 import CookieConsent from "@/components/layout/cookie-consent";
+import BackToTop from "@/components/layout/back-to-top";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { constructMetadata } from "@/lib/metadata";
@@ -83,6 +84,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <TailwindIndicator />
 
             <Analytics />
+            <BackToTop />
             <CookieConsent />
           </ThemeProvider>
         </SessionProvider>

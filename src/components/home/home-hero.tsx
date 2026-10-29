@@ -46,12 +46,12 @@ export default function HomeHero() {
 
         {/* 统计数字 */}
         <p className="text-base text-muted-foreground">
-          <span className="font-semibold text-primary">200+</span> Handpicked AI Coding Tools ·{" "}
-          <span className="font-semibold text-primary">200+</span> Curated Tools ·{" "}
+          <span className="font-semibold text-primary">240+</span> Curated AI Coding Tools ·{" "}
           <span className="font-semibold text-primary">4</span> Categories ·{" "}
           <span className="font-semibold text-primary">13</span> Student Deals ·{" "}
-          <span className="font-semibold text-primary">Free & Open Source Options</span>
+          <span className="font-semibold text-primary">10</span> In-Depth Guides
         </p>
+        <p className="text-sm text-muted-foreground/80">Last Updated: November 2026</p>
 
         <div className="w-full">
           <HomeSearchBox urlPrefix="/" />
