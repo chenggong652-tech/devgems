@@ -91,11 +91,31 @@ export default async function HomePage({
       {/* 搜索框 - 打开页面就能看到 */}
       <SearchBox />
 
+      {/* 场景快捷选择 */}
+      <div className="max-w-4xl mx-auto px-4 mt-6 flex flex-wrap justify-center gap-3">
+        <Link href="/category/ai-code-editors" className="px-4 py-2 rounded-full border text-sm hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-colors">
+          🆕 I'm new to AI coding
+        </Link>
+        <Link href="/category/ai-app-builders" className="px-4 py-2 rounded-full border text-sm hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-colors">
+          🚀 I want to build apps fast
+        </Link>
+        <Link href="/category/llm-apis" className="px-4 py-2 rounded-full border text-sm hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-colors">
+          🤖 I build AI agents
+        </Link>
+        <Link href="/deals" className="px-4 py-2 rounded-full border text-sm hover:bg-purple-50 dark:hover:bg-purple-950/20 transition-colors">
+          🎓 I'm a student looking for free tools
+        </Link>
+      </div>
+
       {/* 分类展示卡片 */}
       <CategoryGrid />
 
       {/* 特色工具 */}
       <FeaturedGems />
+
+      <p className="text-center text-sm text-muted-foreground mt-12">
+        Last updated: Nov 2026 · We add new AI coding tools every week
+      </p>
 
       {/* when no items are found */}
       {items?.length === 0 && <EmptyGrid />}

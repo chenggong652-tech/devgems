@@ -1,5 +1,6 @@
 import { constructMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/config/site";
+import Link from "next/link";
 
 export const metadata = constructMetadata({
   title: "Cursor vs GitHub Copilot vs Claude Code: Which AI Coding Tool Is Best in 2026?",
@@ -15,7 +16,7 @@ export default function CursorVsCopilotPage() {
 
       <div className="prose dark:prose-invert">
         <p className="text-lg leading-relaxed mb-6">
-          If you're a developer in 2026, you've probably wondered: should I pay for Cursor, stick with GitHub Copilot, or try Claude Code? We tested all three for weeks, and here's the honest breakdown.
+          If you're a developer in 2026, you've probably wondered: should I pay for <Link href="/item/cursor" className="text-purple-600 hover:underline">Cursor</Link>, stick with <Link href="/item/github-copilot" className="text-purple-600 hover:underline">GitHub Copilot</Link>, or try Claude Code? We tested all three for weeks, and here's the honest breakdown.
         </p>
 
         <h2 className="text-2xl font-semibold mt-10 mb-4">Quick Comparison</h2>
@@ -101,6 +102,12 @@ export default function CursorVsCopilotPage() {
         <p className="text-muted-foreground mt-10 text-sm">
           *This post contains affiliate links, we may earn a commission at no extra cost to you.
         </p>
+
+        <div className="mt-12 p-6 rounded-2xl bg-purple-50 dark:bg-purple-950/20 border text-center">
+          <h3 className="text-xl font-bold mb-2">📬 Get weekly AI coding tools in your inbox</h3>
+          <p className="text-muted-foreground mb-4 text-sm">We send 5 best new AI dev tools every week, no spam.</p>
+          <a href="#tools" className="inline-block px-6 py-2 rounded-xl bg-purple-600 text-white text-sm font-medium hover:bg-purple-700">Browse Tools</a>
+        </div>
       </div>
     </div>
   );

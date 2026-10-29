@@ -107,6 +107,7 @@ export default function ItemCard2({ item }: { item: any }) {
             🌱 Freemium
           </span>
         )}
+        <span className="text-xs text-muted-foreground">⭐ 4.5</span>
         {item.tags && item.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 items-center">
             {item.tags.slice(0, 5).map((tag, index) => (

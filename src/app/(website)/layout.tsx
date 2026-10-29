@@ -36,6 +36,24 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-YSGTWDZXGE');`,
           }}
         />
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "DevGems",
+              url: "https://devgems.io",
+              description: "The best directory of AI-powered development tools for programmers",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://devgems.io/?search={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            }),
+          }}
+        />
       </head>
       <body
         className={cn(

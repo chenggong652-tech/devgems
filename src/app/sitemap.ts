@@ -19,6 +19,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${site_url}/blog`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${site_url}/blog/cursor-vs-copilot-vs-claude-code`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${site_url}/blog/bolt-vs-v0-vs-replit`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
+      url: `${site_url}/blog/openai-vs-anthropic-vs-gemini`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${site_url}/category/ai-code-editors`,
       lastModified: new Date(),
       changeFrequency: "weekly",

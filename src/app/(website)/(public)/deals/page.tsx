@@ -103,6 +103,7 @@ export default function DealsPage() {
             href={deal.link}
             target="_blank"
             rel="noopener noreferrer"
+            rel="noopener noreferrer"
             className="p-6 rounded-2xl border bg-card hover:shadow-lg transition-all hover:-translate-y-1"
           >
             <div className="flex items-center justify-between mb-3">
