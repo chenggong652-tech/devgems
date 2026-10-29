@@ -151,12 +151,34 @@ export default async function ItemPage({ params }: ItemPageProps) {
               Pricing
             </h2>
             <div className="p-6 rounded-lg border bg-card">
-              <p className="text-lg leading-relaxed text-muted-foreground mb-3">
-                {item.name} offers a generous free tier to get started, with paid plans starting at just $10-$20 per month for individual developers. Team and enterprise plans are available for organizations that need advanced features and shared workspaces.
-              </p>
-              <p className="text-sm text-muted-foreground">
-                No credit card required to try the free tier, cancel anytime.
-              </p>
+              {item.pricingModel === "open-source" ? (
+                <>
+                  <p className="text-lg leading-relaxed text-muted-foreground mb-3">
+                    {item.name} is 100% free and open source. You can use it completely free, self-host it on your own server, or use the hosted free tier with no credit card required.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Free forever, no hidden fees.
+                  </p>
+                </>
+              ) : item.pricingModel === "paid" ? (
+                <>
+                  <p className="text-lg leading-relaxed text-muted-foreground mb-3">
+                    {item.name} is a paid tool with no permanent free tier. Paid plans start at around $10-$20 per month for individual developers, with enterprise plans available for teams.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    Free trials available on the official website.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-lg leading-relaxed text-muted-foreground mb-3">
+                    {item.name} offers a generous free tier to get started, with paid plans starting at just $10-$20 per month for individual developers. Team and enterprise plans are available for organizations that need advanced features and shared workspaces.
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    No credit card required to try the free tier, cancel anytime.
+                  </p>
+                </>
+              )}
             </div>
           </div>
 
