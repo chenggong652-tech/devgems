@@ -275,6 +275,18 @@ export default async function ItemPage({ params }: ItemPageProps) {
               </li>
               <li className="flex items-center justify-between">
                 <span className="flex items-center gap-2 text-muted-foreground">
+                  <DollarSign className="w-4 h-4" /> Pricing
+                </span>
+                {item.pricingModel === "open-source" ? (
+                  <span className="px-2 py-0.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium">Open Source</span>
+                ) : item.pricingModel === "paid" ? (
+                  <span className="px-2 py-0.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium">Paid</span>
+                ) : (
+                  <span className="px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">Freemium</span>
+                )}
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="flex items-center gap-2 text-muted-foreground">
                   <Calendar className="w-4 h-4" /> Listed On
                 </span>
                 <span className="font-medium">Today</span>
