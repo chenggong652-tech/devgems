@@ -8,6 +8,7 @@ import {
 } from "@/assets/fonts";
 import { auth } from "@/auth";
 import { Analytics } from "@/components/analytics/analytics";
+import CookieConsent from "@/components/layout/cookie-consent";
 import { TailwindIndicator } from "@/components/tailwind-indicator";
 import { Toaster } from "@/components/ui/sonner";
 import { constructMetadata } from "@/lib/metadata";
@@ -64,6 +65,7 @@ export default async function RootLayout({ children }: RootLayoutProps) {
             <TailwindIndicator />
 
             <Analytics />
+            <CookieConsent />
           </ThemeProvider>
         </SessionProvider>
       </body>
