@@ -138,9 +138,26 @@ export default async function ItemPage({ params }: ItemPageProps) {
               Who Is It For?
             </h2>
             <div className="p-6 rounded-lg border bg-card">
-              <p className="text-lg leading-relaxed text-muted-foreground">
-                {item.name} is designed for software engineers, indie hackers, and development teams who want to leverage AI to write code faster, reduce repetitive work, and ship products quicker. Whether you're a solo developer building side projects or part of a large engineering team, this tool fits naturally into your existing workflow.
-              </p>
+              {item.category === "AI Code Editors" && (
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                  {item.name} is perfect for developers who want a full, integrated code editor with AI capabilities built right in. If you're tired of switching between VS Code and separate AI chat windows, this tool will fit right into your daily workflow — whether you're building a side project or working on a production codebase.
+                </p>
+              )}
+              {item.category === "AI Pair Programmers" && (
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                  {item.name} is perfect for developers who already love their current editor (VS Code, JetBrains, Neovim) and just want AI autocomplete and chat built in. It's great for solo devs who want to speed up repetitive coding tasks, and teams that need consistent AI assistance across the whole organization.
+                </p>
+              )}
+              {item.category === "LLM APIs" && (
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                  {item.name} is built for developers who are building AI-powered applications. If you need a reliable, scalable API to call LLMs directly from your code, this service gives you pay-as-you-go pricing, low latency, and all the SDKs you need to integrate AI into your product.
+                </p>
+              )}
+              {item.category === "AI App Builders" && (
+                <p className="text-lg leading-relaxed text-muted-foreground">
+                  {item.name} is for indie hackers, founders, and non-technical builders who want to launch a full web app without writing code. If you have an idea but don't want to spend months learning React or setting up a backend, this tool lets you turn a prompt into a working app in minutes.
+                </p>
+              )}
             </div>
           </div>
 
