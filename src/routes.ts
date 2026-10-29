@@ -36,6 +36,9 @@ export const publicRoutes = [
   // og images
   "/api/og",
 
+  // newsletter subscribe
+  "/api/subscribe",
+
   // draft mode
   "/api/draft",
 
