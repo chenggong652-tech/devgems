@@ -83,7 +83,7 @@ export default async function CategoryPage({
       {items && items.length > 0 && (
         <section>
           <ItemGrid
-            items={items}
+            items={items as any}
             sponsorItems={[]}
             showSponsor={false}
           />

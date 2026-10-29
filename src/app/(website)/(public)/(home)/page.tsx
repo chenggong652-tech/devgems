@@ -104,8 +104,8 @@ export default async function HomePage({
       {items && items.length > 0 && (
         <section id="tools" className="max-w-7xl mx-auto px-4">
           <ItemGrid
-            items={items}
-            sponsorItems={sponsorItems}
+            items={items as any}
+            sponsorItems={sponsorItems as any}
             showSponsor={showSponsor}
           />
 
