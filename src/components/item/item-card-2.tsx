@@ -93,17 +93,17 @@ export default function ItemCard2({ item }: { item: any }) {
 
       {/* bottom */}
       <div className="mt-4 flex justify-end items-center">
-        {/* 根据pricingModel显示对应标签 */}
+        {/* 根据pricingModel显示对应标签，加悬停提示 */}
         {item.pricingModel === "open-source" ? (
-          <span className="mr-auto px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
+          <span title="100% free to use and self-hostable" className="mr-auto px-2 py-1 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium">
             💡 Open Source
           </span>
         ) : item.pricingModel === "paid" ? (
-          <span className="mr-auto px-2 py-1 rounded-md bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
+          <span title="Paid tool, no permanent free tier available" className="mr-auto px-2 py-1 rounded-md bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium">
             💳 Paid
           </span>
         ) : (
-          <span className="mr-auto px-2 py-1 rounded-md bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium">
+          <span title="Free tier available, paid upgrades for advanced features" className="mr-auto px-2 py-1 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
             🌱 Freemium
           </span>
         )}

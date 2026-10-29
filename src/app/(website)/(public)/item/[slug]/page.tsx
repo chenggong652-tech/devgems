@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import StarRating from "@/components/item/star-rating";
+import SubscribeForm from "@/components/item/subscribe-form";
 
 export async function generateMetadata({
   params,
@@ -103,7 +104,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
               <Link
                 href={item.url}
                 target="_blank"
-                rel="nofollow noopener noreferrer"
+                rel="sponsored noopener noreferrer"
                 className="flex items-center gap-2"
               >
                 <GlobeIcon className="w-5 h-5" />
@@ -205,21 +206,8 @@ export default async function ItemPage({ params }: ItemPageProps) {
           </div>
 
           {/* 邮箱订阅框 */}
-          <div className="mb-12 p-8 rounded-2xl bg-gradient-to-r from-purple-500/10 to-blue-500/10 border text-center">
-            <h3 className="text-2xl font-bold mb-3">📬 Get Weekly AI Coding Tools</h3>
-            <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-              Every week, we send you the 5 best new AI development tools. No spam, unsubscribe anytime.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="your@email.com"
-                className="flex-1 px-4 py-3 rounded-xl border bg-card focus:outline-none focus:ring-2 focus:ring-purple-500/50"
-              />
-              <button className="px-6 py-3 rounded-xl bg-purple-600 text-white font-medium hover:bg-purple-700 whitespace-nowrap">
-                Subscribe Free
-              </button>
-            </div>
+          <div className="mb-12">
+            <SubscribeForm />
           </div>
 
           {/* Related Tools */}
@@ -263,7 +251,7 @@ export default async function ItemPage({ params }: ItemPageProps) {
                 <span className="flex items-center gap-2 text-muted-foreground">
                   <Building2 className="w-4 h-4" /> Official Website
                 </span>
-                <Link href={item.url} target="_blank" className="text-purple-500 hover:underline font-medium">
+                <Link href={item.url} target="_blank" rel="sponsored noopener noreferrer" className="text-purple-500 hover:underline font-medium">
                   {new URL(item.url).hostname}
                 </Link>
               </li>

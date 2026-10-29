@@ -56,6 +56,36 @@ const deals = [
     description: "Replit Pro free for verified students",
     link: "https://replit.com/students",
   },
+  {
+    tool: "GitHub Student Pack",
+    type: "Student Free",
+    description: "Free access to 100+ developer tools and enterprise plans for students",
+    link: "https://education.github.com/pack",
+  },
+  {
+    tool: "JetBrains",
+    type: "Student Free",
+    description: "All JetBrains IDEs (IntelliJ, PyCharm) free for students",
+    link: "https://www.jetbrains.com/student/",
+  },
+  {
+    tool: "Datacamp",
+    type: "Student Free",
+    description: "Free 3-month DataCamp Premium for verified students",
+    link: "https://www.datacamp.com/donorschoose",
+  },
+  {
+    tool: "Microsoft Azure",
+    type: "Free Credits",
+    description: "$100 free Azure credit for students + free developer tools",
+    link: "https://azure.microsoft.com/en-us/free/students/",
+  },
+  {
+    tool: "Namecheap",
+    type: "Student Free",
+    description: "Free .me domain for 1 year for students",
+    link: "https://www.namecheap.com/promotions/for-students/",
+  },
 ];
 
 export default function DealsPage() {

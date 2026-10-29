@@ -61,6 +61,22 @@ export default function SearchBox() {
           );
         })}
       </div>
+      {/* 当前筛选状态提示 */}
+      {searchParams.get("f") && (
+        <p className="text-center text-sm text-muted-foreground mt-3">
+          Filtering: <span className="font-semibold text-purple-500">{searchParams.get("f") === "open-source" ? "Open Source Tools" : searchParams.get("f") === "paid" ? "Paid Tools" : "Freemium Tools"}</span>
+          <button
+            onClick={() => {
+              const params = new URLSearchParams(window.location.search);
+              params.delete("f");
+              router.replace(`/?${params.toString()}#tools`);
+            }}
+            className="ml-2 text-purple-500 underline hover:text-purple-600"
+          >
+            Clear filter
+          </button>
+        </p>
+      )}
     </div>
   );
 }

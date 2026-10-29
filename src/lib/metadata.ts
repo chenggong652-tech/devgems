@@ -8,7 +8,7 @@ export function constructMetadata({
   title = siteConfig.name,
   description = siteConfig.description,
   canonicalUrl,
-  image = siteConfig.image,
+  image = "/og.png",
   noIndex = true,
 }: {
   title?: string;
